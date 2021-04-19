@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
+  console.log(req.session);
   res.render('index', { title: 'Sortr.io' });
 });
 
@@ -9,7 +10,8 @@ var list = [];
 
 router.post('/sort', function(req, res, next) {
 
-  list = [];
+  req.session.list = [];
+
   items = req.body.list.split("\n");
 
   if(items.length < 2){
@@ -17,7 +19,7 @@ router.post('/sort', function(req, res, next) {
   }
 
   for (let i = 0; i < items.length; i++) {
-    list.push({
+    req.session.list.push({
       id: i,
       title: items[i],
       score: 1000
@@ -29,7 +31,7 @@ router.post('/sort', function(req, res, next) {
 
 
 router.get('/sort/:left?/:right?/:winner?', function(req, res, next) {
-  if(list.length == 0){
+  if(req.session.list.length == 0){
     return res.redirect("/");
   }
 
@@ -39,8 +41,8 @@ router.get('/sort/:left?/:right?/:winner?', function(req, res, next) {
     var r = parseInt(req.params.right);
     var w = parseInt(req.params.winner);
 
-    oldScoreLeft = list[l].score
-    oldScoreRight = list[r].score
+    oldScoreLeft = req.session.list[l].score
+    oldScoreRight = req.session.list[r].score
 
     esperanceLeft = 1.0/(1+Math.pow(10, (oldScoreRight-oldScoreLeft)/400.0));
     esperanceRight = 1.0/(1+Math.pow(10, (oldScoreLeft-oldScoreRight)/400.0));
@@ -48,12 +50,12 @@ router.get('/sort/:left?/:right?/:winner?', function(req, res, next) {
     newScoreLeft = oldScoreLeft+100*((l==w?1:0)-esperanceLeft);
     newScoreRight = oldScoreRight+100*((r==w?1:0)-esperanceRight);
 
-    list[l].score = Math.round(newScoreLeft);
-    list[r].score = Math.round(newScoreRight);
+    req.session.list[l].score = Math.round(newScoreLeft);
+    req.session.list[r].score = Math.round(newScoreRight);
 
   }
 
-  list.sort(function(a, b){
+  req.session.list.sort(function(a, b){
     if(a.score > b.score)
       return -1;
     if(a.score < b.score)
@@ -61,12 +63,12 @@ router.get('/sort/:left?/:right?/:winner?', function(req, res, next) {
     return 0;
   })
 
-  var left = list[Math.floor(Math.random() * list.length)];
+  var left = req.session.list[Math.floor(Math.random() * req.session.list.length)];
   do{
-    right = list[Math.floor(Math.random() * list.length)];
+    right = req.session.list[Math.floor(Math.random() * req.session.list.length)];
   }while(left == right);
 
-  res.render('sort', {left, right, list});
+  res.render('sort', {left, right, list: req.session.list});
 });
 
 module.exports = router;
