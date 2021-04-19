@@ -23,11 +23,13 @@ block content
       h1.title Left or Right ? 
       p.subtitle Choose which item is more important
 
-    .columns.my-6
+    .columns.mt-6
       .column 
         a(href="/sort/"+left.id+"/"+right.id+"/"+left.id)#left-win.button.is-primary.is-large.is-fullwidth= left.title
       .column 
         a(href="/sort/"+left.id+"/"+right.id+"/"+right.id)#right-win.button.is-primary.is-large.is-fullwidth= right.title
+    p.is-size-7.mb-6 You can use <strong>Left</strong> or <strong>Right</strong> key too
+  
 
     h3.title.is-4 Results
     table.table.is-fullwidth
