@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  console.log(req.session);
   res.render('index', { title: 'Sortr.io' });
 });
 
@@ -31,7 +30,7 @@ router.post('/sort', function(req, res, next) {
 
 
 router.get('/sort/:left?/:right?/:winner?', function(req, res, next) {
-  if(req.session.list.length == 0){
+  if(req.session.list==undefined || req.session.list.length == 0){
     return res.redirect("/");
   }
 
