@@ -38,9 +38,9 @@ block content
         th Item
         th Score
       tbody
-        each item in list
+        each item, idx in list
           tr
-            td= item.id
+            td= idx+1
             td= item.title
             td= item.score
 
