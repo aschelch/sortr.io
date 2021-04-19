@@ -1,0 +1,48 @@
+extends layout
+
+block content
+
+
+  nav.navbar
+    .container.is-max-desktop
+      .navbar-brand
+        a(href="/").navbar-item Sortr
+        span.navbar-burger(data-target="navbarMenuHeroA")
+          span
+          span
+          span
+      #navbarMenuHeroA.navbar-menu
+        .navbar-end
+          a.navbar-item Github
+          span.navbar-item
+            a.button.is-primary
+              span Sort a new list
+
+  .container.is-max-desktop.has-text-centered
+    .mt-6
+      h1.title Left or Right ? 
+      p.subtitle Choose which item is more important
+
+    .columns.my-6
+      .column 
+        a(href="/sort/"+left.id+"/"+right.id+"/"+left.id)#left-win.button.is-primary.is-large.is-fullwidth= left.title
+      .column 
+        a(href="/sort/"+left.id+"/"+right.id+"/"+right.id)#right-win.button.is-primary.is-large.is-fullwidth= right.title
+
+    h3.title.is-4 Results
+    table.table.is-fullwidth
+      thead
+        th #
+        th Item
+        th Score
+      tbody
+        each item in list
+          tr
+            td= item.id
+            td= item.title
+            td= item.score
+
+    a(href="/").button.is-medium Sort another list
+
+
+  script(src="/javascripts/app.js") 

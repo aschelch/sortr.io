@@ -1,5 +1,30 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+
+  section.hero.is-primary
+    .hero-head
+      nav.navbar
+        .container.is-max-desktop
+          .navbar-brand
+            a.navbar-item Sortr
+            span.navbar-burger(data-target="navbarMenuHeroA")
+              span
+              span
+              span
+          #navbarMenuHeroA.navbar-menu
+            .navbar-end
+              a.navbar-item Github
+
+    .hero-body
+      .container.is-max-desktop.has-text-centered
+        h1.title= title
+        p.subtitle Sort a list by picking left or right
+
+  .container.is-max-desktop.has-text-centered.py-6
+    form(action="/sort", method="post") 
+      .field 
+        label.label Copy/paste a list of item to sort
+        textarea.textarea(placeholder="Item A\nItem B\nItem C",name="list",rows=10)
+      .field
+        button.button.is-medium.is-primary(type="submit") Start sorting
