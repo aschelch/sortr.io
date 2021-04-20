@@ -67,7 +67,17 @@ router.get('/sort/:left?/:right?/:winner?', function(req, res, next) {
     right = req.session.list[Math.floor(Math.random() * req.session.list.length)];
   }while(left == right);
 
-  res.render('sort', {left, right, list: req.session.list});
+
+  var list = req.session.list;
+  list.sort(function(a, b){
+    if(a.score > b.score)
+      return -1;
+    if(a.score < b.score)
+      return 1;
+    return 0;
+  })
+
+  res.render('sort', {left, right, list});
 });
 
 module.exports = router;
