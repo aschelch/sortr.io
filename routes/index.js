@@ -67,8 +67,6 @@ router.get('/sort/:left?/:right?/:winner?', function(req, res, next) {
       return 1;
     return 0;
   })
-  console.log('db', req.session.list);
-  console.log('aff', list);
 
   res.render('sort', {left, right, list});
 });
