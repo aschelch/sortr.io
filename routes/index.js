@@ -59,8 +59,7 @@ router.get('/sort/:left?/:right?/:winner?', function(req, res, next) {
     right = req.session.list[Math.floor(Math.random() * req.session.list.length)];
   }while(left == right);
 
-
-  var list = req.session.list;
+  var list = Array.from(req.session.list);
   list.sort(function(a, b){
     if(a.score > b.score)
       return -1;
@@ -68,6 +67,8 @@ router.get('/sort/:left?/:right?/:winner?', function(req, res, next) {
       return 1;
     return 0;
   })
+  console.log('db', req.session.list);
+  console.log('aff', list);
 
   res.render('sort', {left, right, list});
 });
